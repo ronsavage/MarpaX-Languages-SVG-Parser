@@ -4,9 +4,9 @@
       "Ron Savage <ron@savage.net.au>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.131560",
+   "generated_by" : "Module::Build version 0.4204, CPAN::Meta::Converter version 2.120921",
    "license" : [
-      "artistic_2"
+      "unknown"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -16,13 +16,12 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Test::More" : "0.94",
-            "Test::Version" : "1.002003"
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.38"
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "runtime" : {
@@ -43,6 +42,8 @@
             "Path::Tiny" : "0.034",
             "Pod::Usage" : "1.63",
             "Set::Array" : "0.3",
+            "Test::More" : "0.94",
+            "Test::Version" : "1.002003",
             "Text::CSV::Encoded" : "0.22",
             "Text::Xslate" : "1.6002",
             "Types::Standard" : "0.026",
@@ -80,7 +81,7 @@
    "release_status" : "stable",
    "resources" : {
       "license" : [
-         "http://www.perlfoundation.org/artistic_license_2_0"
+         "http://opensource.org/licenses/artistic-license-2.0.php"
       ]
    },
    "version" : "1.02"
