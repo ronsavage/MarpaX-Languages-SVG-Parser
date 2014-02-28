@@ -1,5 +1,9 @@
 Revision history for Perl extension MarpaX::Languages::SVG::Parser.
 
+1.03  Sat Feb 22 17:44:00 2014
+	- Add 'lexeme default = latm => 1' to the grammar.
+	- Make V 2.082 the minimum version for Marpa::R2.
+
 1.02  Fri Nov  1 15:51:00 2013
 	- Stop tests from requiring *::Utis, which uses *::Config, which is for my use only.
 	- Simplify t/test.fake.data.t by not 'use'ing unused modules.

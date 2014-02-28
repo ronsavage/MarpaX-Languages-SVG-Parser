@@ -56,7 +56,7 @@ $class -> new
 		'File::Spec'              => 3.40,
 		'Getopt::Long'            => 2.41,
 		'Log::Handler'            => 0.79,
-		'Marpa::R2'               => 2.070000,
+		'Marpa::R2'               => 2.082000,
 		'Moo'                     => 1.003001,
 		'open'                    => 0,
 		'Path::Tiny'              => 0.034,
