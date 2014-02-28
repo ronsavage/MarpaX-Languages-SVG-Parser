@@ -17,19 +17,19 @@ name: MarpaX-Languages-SVG-Parser
 provides:
   MarpaX::Languages::SVG::Parser:
     file: lib/MarpaX/Languages/SVG/Parser.pm
-    version: 1.02
+    version: 1.03
   MarpaX::Languages::SVG::Parser::Actions:
     file: lib/MarpaX/Languages/SVG/Parser/Actions.pm
-    version: 1.02
+    version: 1.03
   MarpaX::Languages::SVG::Parser::Config:
     file: lib/MarpaX/Languages/SVG/Parser/Config.pm
-    version: 1.02
+    version: 1.03
   MarpaX::Languages::SVG::Parser::SAXHandler:
     file: lib/MarpaX/Languages/SVG/Parser/SAXHandler.pm
-    version: 1.02
+    version: 1.03
   MarpaX::Languages::SVG::Parser::Utils:
     file: lib/MarpaX/Languages/SVG/Parser/Utils.pm
-    version: 1.02
+    version: 1.03
 requires:
   Capture::Tiny: 0.22
   Config::Tiny: 2.19
@@ -42,7 +42,7 @@ requires:
   File::Spec: 3.4
   Getopt::Long: 2.41
   Log::Handler: 0.79
-  Marpa::R2: 2.07
+  Marpa::R2: 2.082
   Moo: 1.003001
   Path::Tiny: 0.034
   Pod::Usage: 1.63
@@ -58,4 +58,4 @@ requires:
   warnings: 0
 resources:
   license: http://www.perlfoundation.org/artistic_license_2_0
-version: 1.02
+version: 1.03
