@@ -36,7 +36,7 @@ $class -> new
 	{
 		'Test::More'    => 0.94,
 # 	 	'Test::Pod'     => 1.45, # Make it optional. See xt/author/pod.t
-		'Test::Version' => 1.002003,
+#		'Test::Version' => 1.002003,
 	},
 	configure_requires =>
 	{
