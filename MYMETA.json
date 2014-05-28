@@ -16,8 +16,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Test::More" : "0.94",
-            "Test::Version" : "1.002003"
+            "Test::More" : "0.94"
          }
       },
       "configure" : {
