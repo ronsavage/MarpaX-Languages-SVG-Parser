@@ -23,6 +23,9 @@ provides:
   MarpaX::Languages::SVG::Parser::Config:
     file: lib/MarpaX/Languages/SVG/Parser/Config.pm
     version: '1.06'
+  MarpaX::Languages::SVG::Parser::Filer:
+    file: lib/MarpaX/Languages/SVG/Parser/Filer.pm
+    version: '1.02'
   MarpaX::Languages::SVG::Parser::SAXHandler:
     file: lib/MarpaX/Languages/SVG/Parser/SAXHandler.pm
     version: '1.06'
