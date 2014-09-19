@@ -41,7 +41,7 @@ sub generate_demo
 
 	my($basename);
 	my(%data_file);
-	my($in_file_name, $image);
+	my($in_file_name);
 	my($out_file_name);
 	my(@params);
 
@@ -50,11 +50,10 @@ sub generate_demo
 		$basename             = basename($file, '.bnf');
 		$in_file_name         = "data/$basename.bnf";
 		$out_file_name        = "html/$basename.svg";
-		$image                = $basename =~ s/bnf$/svg/r;
 		$data_file{$basename} =
 		{
 			bnf   => $file,
-			image => $image,
+			image => "$basename.svg",
 		};
 
 		print "$in_file_name => $out_file_name. \n";
@@ -67,8 +66,6 @@ sub generate_demo
 
 		system($^X, @params);
 	}
-
-	return 0;
 
 	my($config)    = $self -> config;
 	my($templater) = Text::Xslate -> new
