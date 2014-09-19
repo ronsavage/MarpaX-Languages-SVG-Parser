@@ -10,10 +10,10 @@ use Config;
 use Date::Simple;
 
 use File::Basename; # For basename().
+use File::Slurp;    # For read_dir().
 use File::Spec;
 
 use MarpaX::Languages::SVG::Parser::Config;
-use MarpaX::Languages::SVG::Parser::Filer;
 
 use Moo;
 
@@ -39,22 +39,36 @@ sub generate_demo
 
 	# Generate html/*.svg.
 
-	`$^X -Ilib scripts/bnf2graph.pl`;
-
 	my($basename);
 	my(%data_file);
-	my($image);
+	my($in_file_name, $image);
+	my($out_file_name);
+	my(@params);
 
-	for my $file (MarpaX::Languages::SVG::Parser::Filer -> new -> get_files('data', 'bnf') )
+	for my $file (sort grep{/bnf$/} read_dir('data') )
 	{
-		$basename             = basename($file);
+		$basename             = basename($file, '.bnf');
+		$in_file_name         = "data/$basename.bnf";
+		$out_file_name        = "html/$basename.svg";
 		$image                = $basename =~ s/bnf$/svg/r;
 		$data_file{$basename} =
 		{
 			bnf   => $file,
 			image => $image,
 		};
+
+		print "$in_file_name => $out_file_name. \n";
+
+		push @params, '../MarpaX-Grammar-GraphViz2/scripts/bnf2graph.pl';
+		push @params, '-legend', '1';
+		push @params, '-marpa', '../MarpaX-Grammar-GraphViz2/share/metag.bnf';
+		push @params, '-out', $out_file_name;
+		push @params, '-user', $in_file_name;
+
+		system($^X, @params);
 	}
+
+	return 0;
 
 	my($config)    = $self -> config;
 	my($templater) = Text::Xslate -> new
