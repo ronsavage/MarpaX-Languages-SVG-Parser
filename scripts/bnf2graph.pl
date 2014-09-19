@@ -5,7 +5,7 @@ use warnings;
 
 use File::Basename; # For basename().
 
-use MarpaX::Languages::SVG::Parser::Utils;
+use MarpaX::Languages::SVG::Parser::Filer;
 
 # ------------------------------------------------
 
@@ -14,7 +14,7 @@ my($in_file_name);
 my($out_file_name);
 my(@params);
 
-for my $file (MarpaX::Languages::SVG::Parser::Utils -> new -> get_files('data', 'bnf') )
+for my $file (MarpaX::Languages::SVG::Parser::Filer -> new -> get_files('data', 'bnf') )
 {
 	$attribute     = basename($file);
 	$attribute     =~ s/^(\w+)(\..+)$/$1/;
@@ -23,9 +23,9 @@ for my $file (MarpaX::Languages::SVG::Parser::Utils -> new -> get_files('data', 
 
 	print "$in_file_name => $out_file_name. \n";
 
-	push @params, '../MarpaX-Grammar-GraphViz2/scripts/bnf2graph.pl';
+	push @params, '../MarpaX-Languages-SVG-Parser/scripts/bnf2graph.pl';
 	push @params, '-legend', '1';
-	push @params, '-marpa', '../MarpaX-Grammar-GraphViz2/share/metag.bnf';
+	push @params, '-marpa', '../MarpaX-Languages-SVG-Parser/share/metag.bnf';
 	push @params, '-o', $out_file_name;
 	push @params, '-user', $in_file_name;
 

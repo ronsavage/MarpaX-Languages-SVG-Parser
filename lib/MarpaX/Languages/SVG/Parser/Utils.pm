@@ -13,6 +13,7 @@ use File::Basename; # For basename().
 use File::Spec;
 
 use MarpaX::Languages::SVG::Parser::Config;
+use MarpaX::Languages::SVG::Parser::Filer;
 
 use Moo;
 
@@ -44,7 +45,7 @@ sub generate_demo
 	my(%data_file);
 	my($image);
 
-	for my $file (MarpaX::Languages::SVG::Parser::Utils -> new -> get_files('data', 'bnf') )
+	for my $file (MarpaX::Languages::SVG::Parser::Filer -> new -> get_files('data', 'bnf') )
 	{
 		$basename             = basename($file);
 		$image                = $basename =~ s/bnf$/svg/r;
@@ -85,9 +86,9 @@ sub generate_demo
 	);
 	my($file_name) = File::Spec -> catfile('html', 'index.html');
 
-	open(OUT, '>', $file_name);
-	print OUT $index;
-	close OUT;
+	open(my $fh, '>', $file_name);
+	print $fh $index;
+	close $fh;
 
 	print "Wrote $file_name\n";
 
