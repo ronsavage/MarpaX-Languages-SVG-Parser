@@ -57,23 +57,23 @@
    "provides" : {
       "MarpaX::Languages::SVG::Parser" : {
          "file" : "lib/MarpaX/Languages/SVG/Parser.pm",
-         "version" : "1.07"
+         "version" : "1.08"
       },
       "MarpaX::Languages::SVG::Parser::Actions" : {
          "file" : "lib/MarpaX/Languages/SVG/Parser/Actions.pm",
-         "version" : "1.07"
+         "version" : "1.08"
       },
       "MarpaX::Languages::SVG::Parser::Config" : {
          "file" : "lib/MarpaX/Languages/SVG/Parser/Config.pm",
-         "version" : "1.07"
+         "version" : "1.08"
       },
       "MarpaX::Languages::SVG::Parser::SAXHandler" : {
          "file" : "lib/MarpaX/Languages/SVG/Parser/SAXHandler.pm",
-         "version" : "1.07"
+         "version" : "1.08"
       },
       "MarpaX::Languages::SVG::Parser::Utils" : {
          "file" : "lib/MarpaX/Languages/SVG/Parser/Utils.pm",
-         "version" : "1.07"
+         "version" : "1.08"
       }
    },
    "release_status" : "stable",
@@ -85,5 +85,5 @@
          "url" : "https://github.com/ronsavage/MarpaX-Languages-SVG-Parser"
       }
    },
-   "version" : "1.07"
+   "version" : "1.08"
 }
