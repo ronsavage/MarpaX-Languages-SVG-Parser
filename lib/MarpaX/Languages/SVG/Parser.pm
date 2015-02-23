@@ -91,7 +91,7 @@ has output_file_name =>
 	required => 0,
 );
 
-our $VERSION = '1.07';
+our $VERSION = '1.08';
 
 # ------------------------------------------------
 
@@ -203,7 +203,7 @@ sub save
 
 	if ($output_file_name)
 	{
-		my($csv) = Text::CSV::Encoded -> new({eol => $/});
+		my($csv) = Text::CSV::Encoded -> new({encoding_out => 'utf8', eol => $/});
 
 		open(my $out, '>', $output_file_name) || die "Can't open(> $output_file_name): $!";
 

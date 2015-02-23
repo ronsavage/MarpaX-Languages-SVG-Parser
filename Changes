@@ -1,5 +1,10 @@
 Revision history for Perl extension MarpaX::Languages::SVG::Parser.
 
+1.08  Tue Feb 24 09:31:00 2015
+	- Change file encoding in lib/MarpaX/Languages/SVG/Parser.pm and t/test.real.data.t.
+		Note: I'mm running Text::CSV::Encoded V 0.22 patched as per #RT93438.
+		Also I'm now running Perl V 5.20.2, which requires the patch just mentioned.
+
 1.07  Fri Sep 19 16:19:00 2014
 	- Fix code which generates the demo page.
 

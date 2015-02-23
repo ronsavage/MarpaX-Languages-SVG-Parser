@@ -34,12 +34,12 @@ sub process
 
 	my(@result)  = `$^X @params`;
 
-	write_file($out_file_name, {binmode => ':raw'}, @result);
+	write_file($out_file_name, {binmode => ':encoding(utf-8)'}, @result);
 
 	is
 	(
-		read_file("$out_file_name", {binmode => ':raw:encoding(utf-8)'}),
-		read_file("$log_file_name", {binmode => ':raw:encoding(utf-8)'}),
+		read_file("$out_file_name", {binmode => ':encoding(utf-8)'}),
+		read_file("$log_file_name", {binmode => ':encoding(utf-8)'}),
 		"Parsing $in_file_name matches shipped log"
 	);
 
