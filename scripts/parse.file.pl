@@ -1,9 +1,8 @@
 #!/usr/bin/env perl
 
 use strict;
-use utf8;
 use warnings;
-use open qw(:std :utf8); # Undeclared streams in UTF-8.
+use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
 use Getopt::Long;
 

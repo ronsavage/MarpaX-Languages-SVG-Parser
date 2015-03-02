@@ -1,10 +1,12 @@
 use strict;
 use warnings;
+use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
 use File::Basename; # For basename().
-use File::Slurp; # For read_file(), write_file().
 use File::Spec;
 use File::Temp;
+
+use Path::Tiny; # For slurp_utf8.
 
 use Test::More;
 
@@ -29,17 +31,18 @@ sub process
 
 	push @params, '-Ilib';
 	push @params, 'scripts/parse.file.pl';
+	push @params, '-encoding', 'utf-8';
 	push @params, '-i', $in_file_name;
 	push @params, '-maxlevel', 'info';
 
 	my(@result)  = `$^X @params`;
 
-	write_file($out_file_name, {binmode => ':encoding(utf-8)'}, @result);
+	path($out_file_name) -> spew_utf8(@result);
 
 	is
 	(
-		read_file("$out_file_name", {binmode => ':encoding(utf-8)'}),
-		read_file("$log_file_name", {binmode => ':encoding(utf-8)'}),
+		path($out_file_name) -> slurp_utf8,
+		path($log_file_name) -> slurp_utf8,
 		"Parsing $in_file_name matches shipped log"
 	);
 
@@ -50,9 +53,9 @@ sub process
 my($count)         = 0;
 my($data_dir_name) = 'data';
 
-for my $file_name (sort grep{/svg$/} read_dir('data', {prefix => 1}) )
+for my $file_name (sort grep{/svg$/} path('data') -> children)
 {
-	process($data_dir_name, $file_name);
+	process($data_dir_name, File::Spec -> catfile('data', $file_name) );
 	$count++;
 }
 

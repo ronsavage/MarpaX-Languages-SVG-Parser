@@ -1,11 +1,11 @@
 package MarpaX::Languages::SVG::Parser;
 
 use strict;
-use utf8;
+use utf8; # Used so I can put utf-8 text in the source for testing.
 use warnings;
-use warnings  qw(FATAL utf8); # Fatalize encoding glitches.
+use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Slurp; # For read_file().
+use Encode; # For encode().
 
 use Log::Handler;
 
@@ -13,7 +13,9 @@ use MarpaX::Languages::SVG::Parser::SAXHandler;
 
 use Moo;
 
-use Text::CSV::Encoded;
+use Path::Tiny; # For path().
+
+use Text::CSV;
 
 use Types::Standard qw/Any Int Str/;
 
@@ -125,7 +127,7 @@ sub get_encoding
 	my($self, %args) = @_;
 	my($encoding)    = $args{encoding} || $self -> encoding;
 
-	return $encoding ? ":encoding($encoding)" : '';
+	return $encoding;
 
 } # End of get_encoding.
 
@@ -181,7 +183,8 @@ sub run
 	my($self, %args) = @_;
 	my($handler)  = MarpaX::Languages::SVG::Parser::SAXHandler -> new(logger => $self -> logger);
 	my($parser)	  = XML::SAX::ParserFactory -> parser(Handler => $handler);
-	my $xml       = read_file($self -> input_file_name, binmode => $self -> get_encoding(%args) );
+	my $xml       = path($self -> input_file_name) -> slurp_utf8;
+	$xml          = '<text>Böhme</text>';
 
 	$parser -> parse_string($xml);
 	$self -> items -> push(@{$handler -> items -> print});
@@ -203,18 +206,18 @@ sub save
 
 	if ($output_file_name)
 	{
-		my($csv) = Text::CSV::Encoded -> new({encoding_out => 'utf8', eol => $/});
+		my($csv) = Text::CSV -> new({binary => 1, eol => $/});
 
-		open(my $out, '>', $output_file_name) || die "Can't open(> $output_file_name): $!";
+		open(my $fh, '>', $output_file_name);
 
-		$csv -> print($out, ['Count', 'Type', 'Name', 'Value']);
+		$csv -> print($fh, ['Count', 'Type', 'Name', 'Value']);
 
 		for my $item ($self -> items -> print)
 		{
-			$csv -> print($out, [$$item{count}, $$item{type}, $$item{name}, $$item{value}]);
+			$csv -> print($fh, [$$item{count}, $$item{type}, $$item{name}, encode('utf-8', $$item{value})]);
 		}
 
-		close($out);
+		close $fh;
 
 		$self -> log(debug => "Wrote $output_file_name");
 	}
@@ -229,7 +232,7 @@ sub test
 
 	# Remove comment lines.
 
-	my(@data)    = grep{! /#/} read_file($self -> input_file_name, binmode => $self -> get_encoding(%args) );
+	my(@data)    = grep{! /^#/} path($self -> input_file_name) -> lines_utf8;
 	my($handler) = MarpaX::Languages::SVG::Parser::SAXHandler -> new(logger => $self -> logger);
 
 	# The start_document() call emulates XML input, in order to partially initialize to action class.

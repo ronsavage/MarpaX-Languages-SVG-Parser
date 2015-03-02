@@ -74,6 +74,8 @@ if ($option_parser -> getoptions
 	die "You must specify a value for the 'attribute'\n" if (! $option{attribute});
 
 	process(%option);
+
+	exit 0;
 }
 else
 {
