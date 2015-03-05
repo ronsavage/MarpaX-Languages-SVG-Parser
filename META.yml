@@ -3,9 +3,11 @@ abstract: 'An SVG parser'
 author:
   - 'Ron Savage <ron@savage.net.au>'
 build_requires:
-  Test::More: '0.94'
+  Test::More: '1.001014'
+  Test::Pod: '1.48'
+  Test::Version: '1.002003'
 configure_requires:
-  Module::Build: '0.38'
+  Module::Build: '0.4211'
 dynamic_config: 1
 generated_by: 'Module::Build version 0.4211, CPAN::Meta::Converter version 2.143240'
 license: artistic_2
@@ -16,21 +18,22 @@ name: MarpaX-Languages-SVG-Parser
 provides:
   MarpaX::Languages::SVG::Parser:
     file: lib/MarpaX/Languages/SVG/Parser.pm
-    version: '1.08'
+    version: '1.09'
   MarpaX::Languages::SVG::Parser::Actions:
     file: lib/MarpaX/Languages/SVG/Parser/Actions.pm
-    version: '1.08'
+    version: '1.09'
   MarpaX::Languages::SVG::Parser::Config:
     file: lib/MarpaX/Languages/SVG/Parser/Config.pm
-    version: '1.08'
-  MarpaX::Languages::SVG::Parser::SAXHandler:
-    file: lib/MarpaX/Languages/SVG/Parser/SAXHandler.pm
-    version: '1.08'
+    version: '1.09'
   MarpaX::Languages::SVG::Parser::Utils:
     file: lib/MarpaX/Languages/SVG/Parser/Utils.pm
-    version: '1.08'
+    version: '1.09'
+  MarpaX::Languages::SVG::Parser::XMLHandler:
+    file: lib/MarpaX/Languages/SVG/Parser/XMLHandler.pm
+    version: '1.09'
 requires:
   Capture::Tiny: '0.22'
+  Config: '0'
   Config::Tiny: '2.19'
   Data::Section::Simple: '0.05'
   Date::Simple: '3.03'
@@ -52,10 +55,11 @@ requires:
   XML::SAX::Base: '1.08'
   XML::SAX::ParserFactory: '1.01'
   open: '0'
+  perl: '0'
   strict: '0'
   utf8: '0'
   warnings: '0'
 resources:
-  license: http://opensource.org/licenses/artistic-license-2.0.php
+  license: http://www.perlfoundation.org/artistic_license_2_0
   repository: https://github.com/ronsavage/MarpaX-Languages-SVG-Parser
-version: '1.08'
+version: '1.09'
