@@ -1,6 +1,6 @@
 Revision history for Perl extension MarpaX::Languages::SVG::Parser.
 
-1.07  Fri Mar  6 09:31:00 2015
+1.08  Fri Mar  6 09:31:00 2015
 	- Replace XML::SAX::ParserFactory with XML::Parser, now that I'm using Perl V 5.20.2,
 		and the utf8 pain goes away.
 	- Rewrite MarpaX::Languages::SVG::Parser::SAXHandler as *::XMLHandler.
@@ -10,6 +10,8 @@ Revision history for Perl extension MarpaX::Languages::SVG::Parser.
 	- Change file encoding in lib/MarpaX/Languages/SVG/Parser.pm and t/test.real.data.t.
 		Note: I'm running Text::CSV::Encoded V 0.22 patched as per #RT93438.
 		Also I'm now running Perl V 5.20.2, which requires the patch just mentioned.
+
+1.07  Fri Sep 19 16:19:00 2014
 	- Fix code which generates the demo page.
 
 1.06  Fri Sep 19 09:15:00 2014
