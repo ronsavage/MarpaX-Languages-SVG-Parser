@@ -19,8 +19,6 @@ use Types::Standard qw/Any Int Object Str/;
 
 use XML::Parser;
 
-extends 'XML::SAX::Base';
-
 has grammar =>
 (
 	default  => sub{return ''},
@@ -95,7 +93,7 @@ has text_stack =>
 
 my($myself);
 
-our $VERSION = '1.09';
+our $VERSION = '1.07';
 
 # -----------------------------------------------
 

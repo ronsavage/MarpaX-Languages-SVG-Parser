@@ -35,8 +35,7 @@ $class -> new
 	build_requires =>
 	{
 		'Test::More' => 1.001014,
-		'Test::Pod' => 1.48,
-		'Test::Version' => 1.002003,
+		'Test::Pod'  => 1.48,
 	},
 	configure_requires =>
 	{
@@ -56,11 +55,13 @@ $class -> new
 		'Config::Tiny' => 2.19,
 		'Data::Section::Simple' => 0.05,
 		'Date::Simple' => 3.03,
+		'Encode' => 0,
 		'File::Basename' => 2.82,
 		'File::Copy' => 2.21,
 		'File::HomeDir' => 1.00,
 		'File::Slurp' => 9999.19,
 		'File::Spec' => 3.40,
+		'File::Temp' => 0.2304,
 		'Getopt::Long' => 2.41,
 		'Log::Handler' => 0.79,
 		'Marpa::R2' => 2.082000,
@@ -71,13 +72,12 @@ $class -> new
 		'Pod::Usage' => 1.63,
 		'Set::Array' => 0.30,
 		'strict' => 0,
-		'Text::CSV::Encoded' => 0.22,
+		'Text::CSV' => 0,
 		'Text::Xslate' => 1.6002,
 		'Types::Standard' => 0.026,
 		'utf8' => 0,
 		'warnings' => 0,
-		'XML::SAX::Base' => 1.08,
-		'XML::SAX::ParserFactory' => 1.01,
+		'XML::Parser' => 2.44,
 	},
 	resources =>
 	{

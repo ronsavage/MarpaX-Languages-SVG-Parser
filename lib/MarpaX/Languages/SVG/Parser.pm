@@ -20,8 +20,6 @@ use Text::CSV;
 
 use Types::Standard qw/Any Int Str/;
 
-use XML::SAX::ParserFactory;
-
 has attribute =>
 (
 	default  => sub{return ''},
@@ -94,7 +92,7 @@ has output_file_name =>
 	required => 0,
 );
 
-our $VERSION = '1.09';
+our $VERSION = '1.07';
 
 # ------------------------------------------------
 
