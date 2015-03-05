@@ -31,18 +31,17 @@ sub process
 
 	push @params, '-Ilib';
 	push @params, 'scripts/parse.file.pl';
-	push @params, '-encoding', 'utf-8';
 	push @params, '-i', $in_file_name;
 	push @params, '-maxlevel', 'info';
 
 	my(@result)  = `$^X @params`;
 
-	path($out_file_name) -> spew_utf8(@result);
+	path($out_file_name) -> spew(@result);
 
 	is
 	(
-		path($out_file_name) -> slurp_utf8,
-		path($log_file_name) -> slurp_utf8,
+		path($out_file_name) -> slurp,
+		path($log_file_name) -> slurp,
 		"Parsing $in_file_name matches shipped log"
 	);
 

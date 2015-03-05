@@ -1,4 +1,4 @@
-package MarpaX::Languages::SVG::Parser::SAXHandler;
+package MarpaX::Languages::SVG::Parser::XMLHandler;
 
 use strict;
 use utf8;
@@ -15,7 +15,9 @@ use Moo;
 
 use Set::Array;
 
-use Types::Standard qw/Any Int Str/;
+use Types::Standard qw/Any Int Object Str/;
+
+use XML::Parser;
 
 extends 'XML::SAX::Base';
 
@@ -35,17 +37,33 @@ has item_count =>
 	required => 0,
 );
 
+has input_file_name =>
+(
+	default  => sub{return ''},
+	is       => 'rw',
+	isa      => Str,
+	required => 0,
+);
+
 has items =>
 (
 	default  => sub{return Set::Array -> new},
 	is       => 'rw',
-	isa      => Any,
+	isa      => Object,
 	required => 0,
 );
 
 has logger =>
 (
 	default  => sub{return undef},
+	is       => 'rw',
+	isa      => Any,
+	required => 0,
+);
+
+has parser =>
+(
+	default  => sub{return ''},
 	is       => 'rw',
 	isa      => Any,
 	required => 0,
@@ -71,21 +89,51 @@ has text_stack =>
 (
 	default  => sub{return Set::Array -> new},
 	is       => 'rw',
-	isa      => Any,
+	isa      => Object,
 	required => 0,
 );
 
-our $VERSION = '1.08';
+my($myself);
+
+our $VERSION = '1.09';
 
 # -----------------------------------------------
 
-sub characters
+sub BUILD
 {
-	my($self, $characters) = @_;
+	my($self) = @_;
+	$myself   = $self;
 
-	$self -> text($self -> text . $$characters{Data});
+	# 1 of 2: Initialize the action class via global variables - Yuk!
+	# The point is that we don't create an action instance.
+	# Marpa creates one but we can't get our hands on it.
 
-}	# End of characters.
+	$MarpaX::Languages::SVG::Parser::Actions::logger = $self -> logger;
+
+	$self -> parser
+	(
+		XML::Parser -> new
+		(
+			NoExpand         => 1,
+			ProtocolEncoding => 'ISO-8859-1',
+			Handlers         =>
+			{
+				Char    => \&handle_characters,
+				Comment => \&handle_comment,
+				Doctype => \&handle_doctype,
+				End     => \&handle_end_tag,
+				Proc    => \&handle_processing_instruction,
+				Start   => \&handle_start_tag,
+				XMLDecl => \&handle_xml_declaration,
+			},
+		)
+	);
+
+	# The 'if' is because the test code inputs strings, not files.
+
+	$self -> parser -> parsefile($self -> input_file_name) if ($self -> input_file_name);
+
+} # End of BUILD.
 
 # ------------------------------------------------
 
@@ -166,18 +214,134 @@ sub encode_booleans
 
 } # End of encode_booleans.
 
-# -----------------------------------------------
+# ------------------------------------------------
 
-sub end_element
+sub handle_characters
 {
-	my($self, $element) = @_;
-	my($tag)            = $$element{Name};
+	my($expat, $string) = @_;
 
-	$self -> new_item('content', $tag, $self -> text);
-	$self -> new_item('tag', $tag, 'close');
-	$self -> text($self -> text_stack -> pop -> print);
+	$myself -> text($myself -> text . $string);
 
-}	# End of end_element.
+} # End of handle_characters.
+
+# ------------------------------------------------
+
+sub handle_comment
+{
+	my($expat, $data) = @_;
+
+	# Perl V 5.20.2 gets a segmentation fault if I try to access $data.
+
+	#$myself -> new_item('Comment', 'comment', $data);
+
+} # End of handle_comment.
+
+# ------------------------------------------------
+
+sub handle_doctype
+{
+	my($expat, @attributes) = @_;
+	my(%name) =
+	(
+		0 => 'name',
+		1 => 'sysid',
+		2 => 'pubid',
+		3 => 'internal',
+	);
+
+	$myself -> new_item('Doctype', 'doctype', '-');
+
+	for my $i (0 .. 3)
+	{
+		$myself -> new_item('attribute', $name{$i}, $attributes[$i]) if (defined $attributes[$i]);
+	}
+
+} # End of handle_doctype.
+
+# ------------------------------------------------
+
+sub handle_end_tag
+{
+	my($expat, $tag) = @_;
+
+	$myself -> new_item('content', $tag, $myself -> text);
+	$myself -> new_item('tag', $tag, 'close');
+	$myself -> text($myself -> text_stack -> pop -> print);
+
+} # End of handle_end_tag.
+
+# ------------------------------------------------
+
+sub handle_processing_instruction
+{
+	my($expat, $target, $data) = @_;
+
+	#say "PI. Target: <$target>. Data: <$data>";
+
+} # End of handle_processing_instruction.
+
+# ------------------------------------------------
+
+sub handle_start_tag
+{
+	my($expat, $tag, %attributes) = @_;
+	my(%special) =
+	(
+		d                   => 1,
+		points              => 1,
+		preserveAspectRatio => 1,
+		transform           => 1,
+		viewBox             => 1,
+	);
+
+	# Stack the text parsed so far for the previous tag,
+	# and start accumulating the text for the current one.
+
+	$myself -> text_stack -> push($myself -> text);
+	$myself -> text('');
+	$myself -> new_item('tag', $tag, 'open');
+
+	my($value);
+
+	for my $attribute (sort %attributes)
+	{
+		$value = $attributes{$attribute};
+
+		next if (! defined $value);
+
+		if ($special{$attribute})
+		{
+			$myself -> new_item('raw', $attribute, $value);
+			$myself -> run_marpa($attribute, $value);
+		}
+		else
+		{
+			$myself -> new_item('attribute', $attribute, $value);
+		}
+	}
+
+} # End of handle_start_tag.
+
+# ------------------------------------------------
+
+sub handle_xml_declaration
+{
+	my($expat, @attributes) = @_;
+	my(%name) =
+	(
+		0 => 'version',
+		1 => 'encoding',
+		2 => 'standalone',
+	);
+
+	$myself -> new_item('XMLDecl', 'xml', '-');
+
+	for my $i (0 .. 2)
+	{
+		$myself -> new_item('attribute', $name{$i}, $attributes[$i]) if (defined $attributes[$i]);
+	}
+
+} # End of handle_xml_declaration.
 
 # --------------------------------------------------
 
@@ -276,66 +440,6 @@ sub run_marpa
 	}
 
 } # End of run_marpa.
-
-# -----------------------------------------------
-
-sub start_document
-{
-	my($self, $element) = @_;
-
-	# 1 of 2: Initialize the action class via global variables - Yuk!
-	# The point is that we don't create an action instance.
-	# Marpa creates one but we can't get our hands on it.
-
-	$MarpaX::Languages::SVG::Parser::Actions::logger = $self -> logger;
-
-} # End of start_document.
-
-# -----------------------------------------------
-
-sub start_element
-{
-	my($self, $element) = @_;
-	my($tag)            = $$element{Name};
-	my(%special)        =
-	(
-		d                   => 1,
-		points              => 1,
-		preserveAspectRatio => 1,
-		transform           => 1,
-		viewBox             => 1,
-	);
-
-	# Stack the text parsed so far for the previous tag,
-	# and start accumulating the text for the current one.
-
-	$self -> text_stack -> push($self -> text);
-	$self -> text('');
-	$self -> new_item('tag', $tag, 'open');
-
-	my($value);
-
-	for my $attribute (sort %{$$element{Attributes} })
-	{
-		$value = $$element{Attributes}{$attribute};
-
-		next if (! defined $value);
-
-		$attribute =~ s/^{}//;
-		$value     = $$value{Value};
-
-		if ($special{$attribute})
-		{
-			$self -> new_item('raw', $attribute, $value);
-			$self -> run_marpa($attribute, $value);
-		}
-		else
-		{
-			$self -> new_item('attribute', $attribute, $value);
-		}
-	}
-
-}	# End of start_element.
 
 # -----------------------------------------------
 

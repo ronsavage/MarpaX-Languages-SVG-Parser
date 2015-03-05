@@ -4,12 +4,13 @@ use strict;
 use utf8; # Used so I can put utf-8 text in the source for testing.
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
+use open     qw(:std :utf8); # Undeclared streams in UTF-8.
 
-use Encode; # For encode().
+use Encode; # For decode() and encode().
 
 use Log::Handler;
 
-use MarpaX::Languages::SVG::Parser::SAXHandler;
+use MarpaX::Languages::SVG::Parser::XMLHandler;
 
 use Moo;
 
@@ -93,7 +94,7 @@ has output_file_name =>
 	required => 0,
 );
 
-our $VERSION = '1.08';
+our $VERSION = '1.09';
 
 # ------------------------------------------------
 
@@ -171,7 +172,7 @@ sub report
 
 	for my $item ($self -> items -> print)
 	{
-		$self -> log(info => sprintf($format, $$item{count}, $$item{type}, $$item{name}, $$item{value}) );
+		$self -> log(info => sprintf($format, $$item{count}, $$item{type}, $$item{name}, decode('utf-8', $$item{value}) ) );
 	}
 
 } # End of report.
@@ -181,12 +182,12 @@ sub report
 sub run
 {
 	my($self, %args) = @_;
-	my($handler)  = MarpaX::Languages::SVG::Parser::SAXHandler -> new(logger => $self -> logger);
-	my($parser)	  = XML::SAX::ParserFactory -> parser(Handler => $handler);
-	my $xml       = path($self -> input_file_name) -> slurp_utf8;
-	$xml          = '<text>Böhme</text>';
+	my($handler) = MarpaX::Languages::SVG::Parser::XMLHandler -> new
+	(
+		logger          => $self -> logger,
+		input_file_name => $self -> input_file_name,
+	);
 
-	$parser -> parse_string($xml);
 	$self -> items -> push(@{$handler -> items -> print});
 	$self -> save;
 	$self -> report;
@@ -214,7 +215,7 @@ sub save
 
 		for my $item ($self -> items -> print)
 		{
-			$csv -> print($fh, [$$item{count}, $$item{type}, $$item{name}, encode('utf-8', $$item{value})]);
+			$csv -> print($fh, [$$item{count}, $$item{type}, $$item{name}, decode('utf-8', $$item{value})]);
 		}
 
 		close $fh;
@@ -233,12 +234,10 @@ sub test
 	# Remove comment lines.
 
 	my(@data)    = grep{! /^#/} path($self -> input_file_name) -> lines_utf8;
-	my($handler) = MarpaX::Languages::SVG::Parser::SAXHandler -> new(logger => $self -> logger);
-
-	# The start_document() call emulates XML input, in order to partially initialize to action class.
-	# I say partially because the other part takes place in the handler's method init_marpa().
-
-	$handler -> start_document;
+	my($handler) = MarpaX::Languages::SVG::Parser::XMLHandler -> new
+	(
+		logger => $self -> logger,
+	);
 	$handler -> run_marpa($self -> attribute, join('', @data) );
 	$self -> items -> push(@{$handler -> items -> print});
 	$self -> report;
