@@ -3,8 +3,8 @@ use warnings;
 
 use Capture::Tiny 'capture';
 
-use File::Basename; # For basename().
-use File::Slurp;    # For read_dir().
+use File::Basename;	# For basename().
+use File::Slurper;	# For read_dir().
 
 use Test::More;
 
@@ -15,7 +15,7 @@ my($count) = 0;
 my($attribute);
 my($result);
 
-for my $file (sort grep{/dat$/} read_dir('data', {prefix => 1}) )
+for my $file (sort grep{/dat$/} read_dir('data') )
 {
 	$attribute = basename($file);
 	$attribute =~ s/^(\w+)(\..+)$/$1/;

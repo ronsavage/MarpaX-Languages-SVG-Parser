@@ -1,7 +1,6 @@
 package MarpaX::Languages::SVG::Parser::Utils;
 
 use strict;
-use utf8;
 use warnings;
 use warnings  qw(FATAL utf8);    # Fatalize encoding glitches.
 
@@ -9,8 +8,8 @@ use Config;
 
 use Date::Simple;
 
-use File::Basename; # For basename().
-use File::Slurp;    # For read_dir().
+use File::Basename;	# For basename().
+use File::Slurper;	# For read_dir().
 use File::Spec;
 
 use MarpaX::Languages::SVG::Parser::Config;
@@ -29,7 +28,7 @@ has config =>
 	required => 0,
 );
 
-our $VERSION = '1.08';
+our $VERSION = '1.09';
 
 # ------------------------------------------------
 

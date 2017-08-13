@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use File::Slurp; # For read_file(), write_file().
+use File::Slurper; # For write_binary().
 use File::Spec;
 
 use MarpaX::Languages::SVG::Parser::Utils;
@@ -35,5 +35,5 @@ for my $in_file_name (MarpaX::Languages::SVG::Parser::Utils -> new -> get_files(
 
 	@result  = `$^X @params`;
 
-	write_file($out_file_name, {binmode => ':raw'}, @result);
+	write_binary($out_file_name, join('', @result) );
 }

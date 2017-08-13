@@ -1,10 +1,8 @@
 package MarpaX::Languages::SVG::Parser;
 
 use strict;
-use utf8; # Used so I can put utf-8 text in the source for testing.
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
-use open     qw(:std :utf8); # Undeclared streams in UTF-8.
 
 use Encode; # For decode() and encode().
 
@@ -92,7 +90,7 @@ has output_file_name =>
 	required => 0,
 );
 
-our $VERSION = '1.08';
+our $VERSION = '1.09';
 
 # ------------------------------------------------
 

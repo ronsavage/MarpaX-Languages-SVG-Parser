@@ -10,7 +10,7 @@ my($param_count);
 
 our $logger;
 
-our $VERSION = '1.08';
+our $VERSION = '1.09';
 
 # ------------------------------------------------
 

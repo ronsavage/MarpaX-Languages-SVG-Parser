@@ -2,7 +2,8 @@ use strict;
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Basename; # For basename().
+use File::Basename;	# For basename().
+use File::Slurper;	# For read_text().
 use File::Spec;
 use File::Temp;
 
@@ -40,8 +41,8 @@ sub process
 
 	is
 	(
-		path($out_file_name) -> slurp,
-		path($log_file_name) -> slurp,
+		read_text($out_file_name),
+		read_text($log_file_name),
 		"Parsing $in_file_name matches shipped log"
 	);
 

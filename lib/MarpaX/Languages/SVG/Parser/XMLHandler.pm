@@ -1,7 +1,6 @@
 package MarpaX::Languages::SVG::Parser::XMLHandler;
 
 use strict;
-use utf8;
 use warnings;
 use warnings  qw(FATAL utf8);    # Fatalize encoding glitches.
 
@@ -93,7 +92,7 @@ has text_stack =>
 
 my($myself);
 
-our $VERSION = '1.08';
+our $VERSION = '1.09';
 
 # -----------------------------------------------
 
