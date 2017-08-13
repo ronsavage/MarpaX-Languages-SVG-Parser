@@ -22,7 +22,7 @@ for my $file (sort grep{/dat$/} read_dir('data') )
 
 	# Could use Try::Tiny, but at home I want to see it die if it fails.
 
-	(undef, undef, $result) = capture{system($^X, '-Ilib', 'scripts/test.file.pl', '-a', $attribute, '-i', $file)};
+	(undef, undef, $result) = capture{system($^X, '-Ilib', 'scripts/test.file.pl', '-a', $attribute, '-i', "data/$file")};
 
 	ok($result == 0, "Processed $file");
 	$count++;

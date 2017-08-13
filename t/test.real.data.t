@@ -43,7 +43,7 @@ sub process
 	(
 		read_text($out_file_name),
 		read_text($log_file_name),
-		"Parsing $in_file_name matches shipped log"
+		"Parsing $in_file_name"
 	);
 
 } # End of process.
