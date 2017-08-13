@@ -6,10 +6,10 @@ use warnings;
 use Capture::Tiny 'capture';
 
 use File::Basename; # For basename().
+use File::Slurper 'read_dir';
+use File::Spec;
 
 use Getopt::Long;
-
-use MarpaX::Languages::SVG::Parser::Utils;
 
 use Pod::Usage;
 
@@ -17,23 +17,24 @@ use Pod::Usage;
 
 sub process
 {
-	my(%arg) = @_;
+	my(%arg)			= @_;
+	my($data_dir_name)	= 'data';
 
 	my($basename);
 	my(@params);
 	my($result);
 	my($stdout, $stderr);
 
-	for my $file (MarpaX::Languages::SVG::Parser::Utils -> new -> get_files('data', 'dat') )
+	for my $file_name (sort grep{/dat$/} read_dir($data_dir_name) )
 	{
-		$basename = basename($file);
-		@params   = ();
+		$file_name	= File::Spec -> catfile($data_dir_name, $file_name);
+		$basename	= basename($file_name);
+		@params		= ();
 
 		next if ($basename !~ /^$arg{attribute}/);
 
 		push @params, '-Ilib', 'scripts/test.file.pl';
-		push @params, '-a', $arg{attribute}, '-i', $file;
-		push @params, '-enc', $arg{encoding} if ($arg{encoding});
+		push @params, '-a', $arg{attribute}, '-i', $file_name;
 		push @params, '-max', $arg{maxlevel} if ($arg{maxlevel});
 		push @params, '-min', $arg{minlevel} if ($arg{minlevel});
 
