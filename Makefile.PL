@@ -32,7 +32,7 @@ my(%params) =
 	PREREQ_PM =>
 	{
 		'Capture::Tiny'			=> 0.22,
-		'Config'				=> undef,
+		'Config'				=> 0,
 		'Config::Tiny'			=> 2.19,
 		'Data::Section::Simple'	=> 0.05,
 		'Date::Simple'			=> 3.03,
@@ -61,7 +61,7 @@ my(%params) =
 	},
 	TEST_REQUIRES =>
 	{
-		'Test::More'	=> 1.001014,
+		'Test::More'	=> 1.001012,
 		'Test::Pod'		=> 1.48,
 	},
 	VERSION_FROM => 'lib/MarpaX/Languages/SVG/Parser.pm',
