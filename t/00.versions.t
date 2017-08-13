@@ -5,18 +5,36 @@ use warnings;
 
 # I tried 'require'-ing modules but that did not work.
 
-use MojoX::Validate::Util; # For the version #.
+use MarpaX::Languages::SVG::Parser; # For the version #.
 
 use Test::More;
 
-use Mojolicious;
-use Mojolicious::Validator;
+use Capture::Tiny;
+use Config;
+use Config::Tiny;
+use Data::Section::Simple;
+use Date::Simple;
+use Encode;
+use File::Basename;
+use File::Copy;
+use File::HomeDir;
+use File::Slurper;
+use File::Spec;
+use File::Temp;
+use Getopt::Long;
+use Log::Handler;
+use Marpa::R2;
 use Moo;
-use Params::Classify;
+use Path::Tiny;
+use Pod::Usage;
+use Set::Array;
 use strict;
+use Text::CSV;
+use Text::Xslate;
 use Types::Standard;
-use URI::Find::Schemeless;
+use utf8;
 use warnings;
+use XML::Parser;
 
 # ----------------------
 
@@ -24,17 +42,35 @@ pass('All external modules loaded');
 
 my(@modules) = qw
 /
-	Mojolicious
-	Mojolicious::Validator
+	Capture::Tiny
+	Config
+	Config::Tiny
+	Data::Section::Simple
+	Date::Simple
+	Encode
+	File::Basename
+	File::Copy
+	File::HomeDir
+	File::Slurper
+	File::Spec
+	File::Temp
+	Getopt::Long
+	Log::Handler
+	Marpa::R2
 	Moo
-	Params::Classify
+	Path::Tiny
+	Pod::Usage
+	Set::Array
 	strict
+	Text::CSV
+	Text::Xslate
 	Types::Standard
-	URI::Find::Schemeless
+	utf8
 	warnings
+	XML::Parser
 /;
 
-diag "Testing MojoX::Validate::Util V $MojoX::Validate::Util::VERSION";
+diag "Testing MarpaX::Languages::SVG::Parser V $MarpaX::Languages::SVG::Parser::VERSION";
 
 for my $module (@modules)
 {
