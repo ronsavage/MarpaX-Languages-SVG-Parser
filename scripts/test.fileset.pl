@@ -63,7 +63,6 @@ if ($option_parser -> getoptions
 (
 	\%option,
 	'attribute=s',
-	'encoding=s',
 	'help',
 	'maxlevel=s',
 	'minlevel=s',
@@ -96,7 +95,6 @@ test.file.pl [options]
 
 	Options:
 	-attribute aString
-	-encoding aString
 	-help
 	-maxlevel aString
 	-minlevel aString
@@ -138,14 +136,6 @@ Various tags can have a 'viewBox' attribute.
 =back
 
 Default: 'd'.
-
-=item o -encoding aString
-
-$string takes values such as 'utf-8', and the code converts this into '<:encoding(utf-8)'.
-
-This option is rarely needed.
-
-Default: ''.
 
 =item o -help
 

@@ -19,7 +19,6 @@ my(%option);
 if ($option_parser -> getoptions
 (
 	\%option,
-	'encoding=s',
 	'help',
 	'input_file_name=s',
 	'maxlevel=s',
@@ -49,7 +48,6 @@ parse.file.pl - Parsing any SVG file
 test.file.pl [options]
 
 	Options:
-	-encoding aString
 	-help
 	-input_file_name anSVGFileName
 	-maxlevel aString
@@ -63,14 +61,6 @@ Exit value: 0.
 =head1 OPTIONS
 
 =over 4
-
-=item o -encoding aString
-
-String takes values such as 'utf-8', and the code converts this into '<:encoding(utf-8)'.
-
-This option is rarely needed for input, but may be for output.
-
-Default: ''.
 
 =item o -help
 
