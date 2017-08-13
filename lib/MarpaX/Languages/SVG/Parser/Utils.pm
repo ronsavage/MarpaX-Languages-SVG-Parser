@@ -8,8 +8,8 @@ use Config;
 
 use Date::Simple;
 
-use File::Basename;	# For basename().
-use File::Slurper;	# For read_dir().
+use File::Basename; # For basename().
+use File::Slurper 'read_dir';
 use File::Spec;
 
 use MarpaX::Languages::SVG::Parser::Config;

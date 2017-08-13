@@ -2,8 +2,8 @@ use strict;
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Basename;	# For basename().
-use File::Slurper;	# For read_text().
+use File::Basename; # For basename().
+use File::Slurper 'read_text';
 use File::Spec;
 use File::Temp;
 

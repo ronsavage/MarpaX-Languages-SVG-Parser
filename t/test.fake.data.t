@@ -3,8 +3,8 @@ use warnings;
 
 use Capture::Tiny 'capture';
 
-use File::Basename;	# For basename().
-use File::Slurper;	# For read_dir().
+use File::Basename; # For basename().
+use File::Slurper 'read_dir';
 
 use Test::More;
 

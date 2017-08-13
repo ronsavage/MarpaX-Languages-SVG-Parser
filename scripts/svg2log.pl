@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use File::Slurper; # For write_binary().
+use File::Slurper 'write_binary';
 use File::Spec;
 
 use MarpaX::Languages::SVG::Parser::Utils;
