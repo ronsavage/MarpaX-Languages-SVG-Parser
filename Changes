@@ -5,6 +5,7 @@ Revision history for Perl extension MarpaX::Languages::SVG::Parser.
 		http://savage.net.au/Ron/html/My.Workflow.for.Building.Distros.html.
 	- Replace File::Slurp with File::Slurper to help fix CPAN Tester error reports.
 	- Add t/00.versions.* to display the version #s of all pre-reqs.
+	- Fix typo in scripts/pod2html.sh.
 
 1.08  Fri Mar  6 09:31:00 2015
 	- Replace XML::SAX::ParserFactory with XML::Parser, now that I'm using Perl V 5.20.2,
