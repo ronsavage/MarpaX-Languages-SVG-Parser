@@ -1209,7 +1209,7 @@ L<MarpaX::Languages::SVG::Parser> was written by Ron Savage I<E<lt>ron@savage.ne
 
 Home page: L<http://savage.net.au/>.
 
-=head1 Copyright
+=head1 Copyright and Licence
 
 Australian copyright (c) 2013, Ron Savage.
 
