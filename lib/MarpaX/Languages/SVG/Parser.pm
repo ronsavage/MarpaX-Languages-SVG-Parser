@@ -82,7 +82,7 @@ has output_file_name =>
 	required => 0,
 );
 
-our $VERSION = '1.09';
+our $VERSION = '1.11';
 
 # ------------------------------------------------
 
@@ -1142,6 +1142,10 @@ parsed results to the screen by calling L</maxlevel([$string])> with C<$string> 
 Without this pragma, data/utf8.01.svg gives you the dread 'Wide character in print...' message.
 
 The pragma is not in the module because it's global, and the end user's program may not want it at all.
+
+In scripts/tests.real.data.t change the call to Path::Tiny.spew() to spew_utf8() so UTF8 in the log is written
+in raw mode. Now the test file logs created under Debian and shipped can be safely compared with the logs written
+when the code is tested under MS Windows.
 
 Lastly, I have unilaterally set the utf8 attribute used by L<Log::Handler>. This is harmless for non-utf-8 file,
 and is vital for data/utf8.01.svg and similar end-user files. It allows the log output (STDOUT) to be redirected.
