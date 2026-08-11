@@ -136,7 +136,7 @@ sub generate_demo_environment
 
 =head1 NAME
 
-C<MarpaX::Languages::SVG::Parser::Utils> - A nested SVG parser, using XML::SAX and Marpa::R2
+MarpaX::Languages::SVG::Parser::Utils - A nested SVG parser, using XML::SAX and Marpa::R2
 
 =head1 Synopsis
 

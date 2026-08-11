@@ -446,7 +446,7 @@ sub run_marpa
 
 =head1 NAME
 
-C<MarpaX::Languages::SVG::Parser::SAXHandler> - A nested SVG parser, using XML::SAX and Marpa::R2
+MarpaX::Languages::SVG::Parser::XMLHandler - A nested parser, using XML::SAX and Marpa::R2
 
 =head1 Synopsis
 
